@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState, useRef } from "react";
 import { isCSVFile } from "../utils/isCSVFile";
+import api from "../utils/api";
 import styles from "./Form.module.css";
 export const Form = () => {
   const [state, setState] = useState({
@@ -16,15 +17,32 @@ export const Form = () => {
     }));
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     alert("submitted");
     e.preventDefault();
     let file: File | null = null;
     if (fileInputRef.current?.files && fileInputRef.current?.files[0]) {
       file = fileInputRef.current?.files[0];
     }
+    if (!file) {
+      alert("No file uploaded");
+      return;
+    }
     const isValidFilename = isCSVFile(file);
-    console.log({ state, file, isValidFilename });
+    if (!isValidFilename) {
+      alert("Invalid file");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("csvFile", file);
+    formData.append("vendor", JSON.stringify(state));
+
+    const res = await api.post("/purchaseOrder", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log({ res });
   };
 
   return (
