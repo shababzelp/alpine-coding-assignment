@@ -2,7 +2,7 @@ export const csvToArray = (csvString: string) => {
   // The array we're going to build
   const csvArray = [];
   // Break it into rows to start
-  const csvRows = csvString.split(/\n/);
+  const csvRows = csvString.split(/\r\n/);
 
   // Take off the first line to get the headers, then split that into an array
   const csvHeaders = csvRows.shift()?.split(",") as string[];

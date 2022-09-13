@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState, useRef } from "react";
 import { isCSVFile } from "../utils/isCSVFile";
 import api from "../utils/api";
-import styles from "./Form.module.css";
+
 export const Form = () => {
   const [error, setError] = useState<undefined | string>(undefined);
   const [msg, setMsg] = useState<undefined | string>(undefined);
@@ -76,9 +76,9 @@ export const Form = () => {
   };
 
   return (
-    <div className={styles["text-center"]}>
-      {msg && <p className={styles.success}>{msg}</p>}
-      {error && <p className={styles.error}>{error}</p>}
+    <div className="text-center">
+      {msg && <p className="success">{msg}</p>}
+      {error && <p className="error">{error}</p>}
       {isLoading && <p>loading..</p>}
       <form onSubmit={onSubmit}>
         <label htmlFor="date">
